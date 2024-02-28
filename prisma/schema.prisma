@@ -19,6 +19,7 @@ model User{
   email String @unique
   password String
   posts Post[]
+  savedPosts Post[] @relation("SavedPosts")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -29,6 +30,7 @@ model Post{
   published Boolean @default(false)
   author User @relation(fields: [authorId], references: [id])
   authorId Int
+  savedBy User[] @relation("SavedPosts")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   comments Comment[]

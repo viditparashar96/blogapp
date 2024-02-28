@@ -9,7 +9,7 @@ interface AuthenticatedRequest extends Request {
   user?: User;
 }
 
-export const createUser = async (req: AuthenticatedRequest, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body;
 
@@ -28,6 +28,7 @@ export const createUser = async (req: AuthenticatedRequest, res: Response) => {
     prisma.$disconnect();
   } catch (error) {
     console.log(error);
+    prisma.$disconnect();
   }
 };
 
@@ -56,8 +57,10 @@ export const loginUser = async (req: Request, res: Response) => {
       message: "Login Successful",
       token: token,
     });
+    prisma.$disconnect();
   } catch (error) {
     console.log(error);
+    prisma.$disconnect();
   }
 };
 
@@ -66,7 +69,9 @@ export const currentUser = async (req: AuthenticatedRequest, res: Response) => {
     res.status(200).json({
       user: req.user,
     });
+    prisma.$disconnect();
   } catch (error) {
     console.log(error);
+    prisma.$disconnect();
   }
 };
